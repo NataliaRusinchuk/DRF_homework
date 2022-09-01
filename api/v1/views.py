@@ -1,3 +1,5 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from rest_framework import generics
 from products.models import Product, Order
 from .serializer import ProductSerializer, OrderSerializer
@@ -6,6 +8,11 @@ from .serializer import ProductSerializer, OrderSerializer
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [
+        DjangoFilterBackend,  
+        filters.OrderingFilter,
+        filters.SearchFilter
+    ]
 
 
 class ProductObject(generics.RetrieveAPIView):
